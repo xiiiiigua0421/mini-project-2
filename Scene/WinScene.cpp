@@ -10,6 +10,8 @@
 #include "UI/Component/Label.hpp"
 #include "WinScene.hpp"
 
+#include <fstream>
+
 void WinScene::Initialize() {
     ticks = 0;
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
@@ -24,6 +26,13 @@ void WinScene::Initialize() {
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("Back", "pirulen.ttf", 48, halfW, halfH * 7 / 4, 0, 0, 0, 255, 0.5, 0.5));
     bgmId = AudioHelper::PlayAudio("win.wav");
+
+    PlayScene* playScene = dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetScene("play"));
+    if (playScene) {
+        std::ofstream ofs("../Resource/scoreboard.txt", std::ios::app);
+        ofs << std::endl << "guest" << " " << playScene->GetMoney();
+        ofs.close();
+    }
 }
 void WinScene::Terminate() {
     IScene::Terminate();
@@ -39,5 +48,6 @@ void WinScene::Update(float deltaTime) {
 }
 void WinScene::BackOnClick(int stage) {
     // Change to select scene.
-    Engine::GameEngine::GetInstance().ChangeScene("stage-select");
+    //Engine::GameEngine::GetInstance().ChangeScene("stage-select");
+    Engine::GameEngine::GetInstance().ChangeScene("scoreboard");
 }

@@ -3,19 +3,17 @@
 #include <string>
 
 #include "Engine/Point.hpp"
-#include "TankEnemy.hpp"
+#include "PlaneEnemy.hpp"
 
-TankEnemy::TankEnemy(int x, int y)
-    : Enemy("play/enemy-3.png", x, y, 20, 40, 100, 50),
-      head("play/enemy-3-head.png", x, y), targetRotation(0) {
+PlaneEnemy::PlaneEnemy(int x, int y)
+    : Enemy("play/enemy-2.png", x, y, 10, 75, 5, 5),
+      targetRotation(0) {
 }
-void TankEnemy::Draw() const {
+void PlaneEnemy::Draw() const {
     Enemy::Draw();
-    head.Draw();
 }
-void TankEnemy::Update(float deltaTime) {
+void PlaneEnemy::Update(float deltaTime) {
     Enemy::Update(deltaTime);
-    head.Position = Position;
     // Choose arbitrary one.
     std::random_device dev;
     std::mt19937 rng(dev());
@@ -26,5 +24,4 @@ void TankEnemy::Update(float deltaTime) {
         std::uniform_real_distribution<> distRadian(-ALLEGRO_PI, ALLEGRO_PI);
         targetRotation = distRadian(rng);
     }
-    head.Rotation = (head.Rotation + deltaTime * targetRotation) / (1 + deltaTime);
 }

@@ -4,6 +4,7 @@
 #include "Engine/Point.hpp"
 #include "Slider.hpp"
 
+
 Slider::Slider(float x, float y, float w, float h)
     : ImageButton("stage-select/slider.png", "stage-select/slider-blue.png", x, y),
       Bar("stage-select/bar.png", x, y, w, h),
@@ -15,12 +16,19 @@ Slider::Slider(float x, float y, float w, float h)
 }
 void Slider::Draw() const {
     // TODO HACKATHON-5 (3/4): The slider's component should be drawn here.
+    Bar.Draw();
+    End1.Draw();
+    End2.Draw();
+    ImageButton::Draw();
 }
 void Slider::SetOnValueChangedCallback(std::function<void(float value)> onValueChangedCallback) {
     OnValueChangedCallback = onValueChangedCallback;
 }
 void Slider::SetValue(float value) {
     // TODO HACKATHON-5 (4/4): Set the value of the slider and call the callback.
+    this->value = std::min(std::max(value, Min), Max);
+    Position.x = Bar.Position.x + Bar.Size.x * (this->value - Min) / (Max - Min);
+    OnValueChangedCallback(value);
 }
 void Slider::OnMouseDown(int button, int mx, int my) {
     if ((button & 1) && mouseIn)

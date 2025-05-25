@@ -10,6 +10,7 @@
 #include "Engine/Point.hpp"
 
 class Turret;
+class Tool;
 namespace Engine {
     class Group;
     class Image;
@@ -19,11 +20,6 @@ namespace Engine {
 
 class PlayScene final : public Engine::IScene {
 private:
-    enum TileType {
-        TILE_DIRT,
-        TILE_FLOOR,
-        TILE_OCCUPIED,
-    };
     ALLEGRO_SAMPLE_ID bgmId;
     std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> deathBGMInstance;
 
@@ -33,6 +29,12 @@ protected:
     int SpeedMult;
 
 public:
+    enum TileType {
+        TILE_DIRT,
+        TILE_FLOOR,
+        TILE_OCCUPIED,
+    };
+
     static bool DebugMode;
     static const std::vector<Engine::Point> directions;
     static const int MapWidth, MapHeight;
@@ -82,5 +84,8 @@ public:
     bool CheckSpaceValid(int x, int y);
     std::vector<std::vector<int>> CalculateBFSDistance();
     // void ModifyReadMapTiles();
+
+    std::vector<std::vector<Engine::Image*>> TileMapImages;
+    std::vector<std::vector<Turret*>> Towers;
 };
 #endif   // PLAYSCENE_HPP

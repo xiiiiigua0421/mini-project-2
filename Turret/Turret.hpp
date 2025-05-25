@@ -15,7 +15,6 @@ protected:
     float coolDown;
     float reload = 0;
     float rotateRadian = 2 * ALLEGRO_PI;
-    Sprite imgBase;
     std::list<Turret *>::iterator lockedTurretIterator;
     PlayScene *getPlayScene();
     // Reference: Design Patterns - Factory Method.
@@ -29,5 +28,9 @@ public:
     void Update(float deltaTime) override;
     void Draw() const override;
     int GetPrice() const;
+
+    Sprite imgBase;
+    bool isTool = false;
+    virtual void Use(){};
 };
 #endif   // TURRET_HPP
